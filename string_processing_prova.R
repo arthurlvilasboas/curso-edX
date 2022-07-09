@@ -1,5 +1,8 @@
 library(gutenbergr)
 library(tidytext)
+library(tidyverse)
+library(dslabs)
+library(textdata)
 
 gutenberg_metadata
 
@@ -29,3 +32,10 @@ words %>% count(word) %>% filter(n > 100) %>% nrow()
 words %>% count(word) %>% top_n(1, n) %>% pull(word)
 
 words %>% count(word) %>% top_n(1, n) %>% pull(n)
+
+afinn <- get_sentiments("afinn")
+
+afinn_sentiments <- inner_join(words,afinn)
+nrow(afinn_sentiments)
+mean(afinn_sentiments$value > 0,na.rm = TRUE)
+sum(afinn_sentiments$value == 4)
